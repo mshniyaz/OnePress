@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+
+:root {
+	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+	/* Color variables */
+	--background-color: #011627;
+	--background-accent: #25343f;
+	--content-color: #fff1e0;
+	--content-desc-color: #fff1e0b2;
+	--content-accent: #2686fa;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+	color: inherit;
+	/* or specify a color like 'black' or '#000000' */
+	text-decoration: none;
+}
+
+body {
+	background-color: var(--background-color) !important;
+	color: var(--content-color);
+	margin: 0px;
+	/* Universal styles */
+	font-family: var(--font-sans);
+	background-color: var(--background);
+	color: var(--content-color);
+}
+
+.desc {
+	color: var(--content-desc-color);
+}
