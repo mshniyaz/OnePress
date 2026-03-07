@@ -10,6 +10,11 @@
 	--content-desc-color: #fff1e0b2;
 	--content-accent: #2686fa;
 	--content-accent-desc: #03355c;
+	/* Colors for badges/warnings */
+	--priority-red: red;
+	--priority-yellow: #ff9500;
+	--priority-green: #4caf50;
+	--priority-unkown: grey;
 }
 
 a:link,

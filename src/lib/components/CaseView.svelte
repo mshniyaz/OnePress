@@ -1,28 +1,49 @@
 <script>
+	import TabSelector from "$lib/components/TabSelector.svelte";
 	import {
 		Volume2,
 		AlertCircle,
 		CircleQuestionMark,
 		House,
-        User,
-        IdCard,
-        Phone
+		User,
+		IdCard,
+		Phone,
 	} from "@lucide/svelte";
 
 	let { caseData } = $props();
 
 	const getPriorityBadge = (priority) => {
 		const badges = {
-			1: "P1 - Critical",
-			2: "P2 - Medium",
-			3: "P3 - Low",
+			1: { label: "P1 - Critical", color: "var(--priority-red)" },
+			2: { label: "P2 - Medium", color: "var(--priority-yellow)" },
+			3: { label: "P3 - Low", color: "var(--priority-green)" },
 		};
-		return badges[priority] || "Unknown";
+		return badges[priority] || { label: "Unknown", color: "var(--priority-unknown)" };
 	};
 
 	const getStatusBadgeColor = (status) => {
 		return status === "Pending" ? "pending" : "resolved";
 	};
+
+	// Tab selection for transcript view
+	let currentTabIndex = $state(0);
+	const tabs = ["Raw Transcript", "Eng Transcript"];
+
+	const getTranscriptContent = $derived(() => {
+		let caseTranscript;
+		if (currentTabIndex === 0) {
+			caseTranscript = caseData?.rawTranscript || "";
+		} else {
+			caseTranscript = caseData?.engTranscript || "";
+		}
+
+		// Check if empty
+		if (!caseTranscript.trim()) {
+			return "Transcript not available";
+		} else {
+			return caseTranscript;
+		}
+	});
 </script>
 
 {#if caseData}
@@ -34,8 +55,11 @@
 				<span class={`status-badge ${getStatusBadgeColor(caseData.status)}`}>
 					{caseData.status}
 				</span>
-				<span class="priority-badge">
-					{getPriorityBadge(caseData.priority)}
+				<span
+					class="priority-badge"
+					style:background-color={getPriorityBadge(caseData.priority).color}
+				>
+					{getPriorityBadge(caseData.priority).label}
 				</span>
 				{#each caseData.tags as tag}
 					<span class="tag-badge">{tag}</span>
@@ -46,7 +70,7 @@
 		<div id="case-content">
 			<!-- Patient info section-->
 			<div id="patient-info">
-				<h2>Patient Information</h2>
+				<h2 class="section-title">Patient Information</h2>
 				<div class="info-grid">
 					<div class="info-item">
 						<span class="info-label">
@@ -57,23 +81,23 @@
 					</div>
 					<div class="info-item">
 						<span class="info-label">
-                            <User size={16} color="var(--content-color)" />
-                            AGE
-                        </span>
+							<User size={16} color="var(--content-color)" />
+							AGE
+						</span>
 						<span class="info-value">{caseData.age}</span>
 					</div>
 					<div class="info-item">
 						<span class="info-label">
-                            <IdCard size={16} color="var(--content-color)" />
-                            NRIC
-                        </span>
+							<IdCard size={16} color="var(--content-color)" />
+							NRIC
+						</span>
 						<span class="info-value">{caseData.nric}</span>
 					</div>
 					<div class="info-item">
 						<span class="info-label">
-                            <Phone size={16} color="var(--content-color)" />
-                            PHONE
-                        </span>
+							<Phone size={16} color="var(--content-color)" />
+							PHONE
+						</span>
 						<span class="info-value">{caseData.phoneNumber}</span>
 					</div>
 				</div>
@@ -90,9 +114,9 @@
 				</div>
 			{/if}
 
-			<!-- Transcript section -->
-			<div id="transcript-section">
-				<h2>AI Summary</h2>
+			<!-- Summary section -->
+			<div id="summary-section">
+				<h2 class="section-title">AI Summary</h2>
 				<div id="ai-summary">
 					<AlertCircle size={20} />
 					<p>
@@ -100,17 +124,19 @@
 						breathing, requesting an ambulance immediately.
 					</p>
 				</div>
-                
-                <!-- Transcript Tabs -->
-                 
-				<div id="transcript-tabs">
-					<button class="tab-button active">Raw Transcript</button>
-					<button class="tab-button">English Translation</button>
-				</div>
+			</div>
+
+			<!-- Transcript section -->
+			<div id="transcript-section">
+				<h2 class="section-title">Transcript</h2>
+				<!-- Transcript Tabs -->
+				{#if caseData.lang !== "English" && caseData.rawTranscript}
+					<TabSelector bind:selected={currentTabIndex} {tabs} />
+				{/if}
 
 				<div id="transcript-content">
-					<h3>Detected: {caseData.lang === "en" ? "English" : "Other"}</h3>
-					<p>{caseData.rawTranscript}</p>
+					<h3>Detected: {currentTabIndex === 0 ? caseData.lang : "English"}</h3>
+					<p>{getTranscriptContent()}</p>
 				</div>
 			</div>
 		</div>
@@ -183,7 +209,6 @@
 		border-radius: 4px;
 		font-size: 0.85em;
 		font-weight: bold;
-		background-color: #dc3545;
 		color: white;
 	}
 
@@ -191,7 +216,7 @@
 		padding: 5px 12px;
 		border-radius: 4px;
 		font-size: 0.85em;
-		background-color: #0066cc;
+		background-color: var(--content-accent);
 		color: white;
 	}
 
@@ -201,14 +226,13 @@
 
 	/* Patient info styles */
 
-    #patient-info {
-        border-bottom: var(--dashboard-border);
-        margin-bottom: 20px;
-    }
+	#patient-info,
+	#summary-section {
+		border-bottom: var(--dashboard-border);
+		margin-bottom: 20px;
+	}
 
-	#patient-info h2,
-	#audio-section h2,
-	#transcript-section h2 {
+	.section-title {
 		font-size: 1.2em;
 		margin: 0px 0px 15px 0px;
 		color: var(--content-accent);
@@ -247,14 +271,14 @@
 		margin-bottom: 30px;
 	}
 
-    /* Audio Player */
+	/* Audio Player */
 
 	audio {
 		width: 100%;
 		margin-top: 10px;
 	}
 
-    /* AI Summary of transcript*/
+	/* AI Summary of transcript*/
 
 	#ai-summary {
 		display: flex;
@@ -279,7 +303,7 @@
 		border-bottom: 1px solid var(--background-accent);
 	}
 
-    /* Tab between raw and translated transcript */
+	/* Tab between raw and translated transcript */
 
 	.tab-button {
 		padding: 10px 20px;
@@ -300,7 +324,7 @@
 		color: var(--content-accent);
 	}
 
-    /* Transcript Content */
+	/* Transcript Content */
 
 	#transcript-content {
 		margin-top: 15px;

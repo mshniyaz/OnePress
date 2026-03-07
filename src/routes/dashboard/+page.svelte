@@ -1,6 +1,6 @@
 <script>
 	import TabSelector from "$lib/components/TabSelector.svelte";
-	import CaseView from "./CaseView.svelte";
+	import CaseView from "../../lib/components/CaseView.svelte";
 
 	// Track currently selected tab for sidebar
 	let currentTabIndex = $state(0);
@@ -16,11 +16,25 @@
 	let casesData = $state(casesDataRaw);
 
 	// compute currently visible cases whenever the index or data changes
-	let currCases = $derived(casesData.filter((caseItem) => caseItem.status === tabs[currentTabIndex]));
+	let currCases = $derived(
+		casesData
+			.filter((caseItem) => caseItem.status === tabs[currentTabIndex])
+			.sort((a, b) => a.priority - b.priority),
+	);
 
 	// Handle case selection
 	const selectCase = (caseItem) => {
 		selectedCase = caseItem;
+	};
+
+	// Handle mapping to colors based on priority
+	function getPriorityColor(priority) {
+		const colors = {
+			1: "var(--priority-red)",
+			2: "var(--priority-yellow)",
+			3: "var(--priority-green)",
+		};
+		return colors[priority] || "var(--priority-unknown)";
 	};
 </script>
 
@@ -39,6 +53,7 @@
 						class="case-item"
 						class:selected={selectedCase?.id === caseItem.id}
 						onclick={() => selectCase(caseItem)}
+						style:--priority-color={getPriorityColor(caseItem.priority)}
 					>
 						<p class="case-name">{caseItem.name}</p>
 						<p class="case-desc">{caseItem.timestamp}</p>
@@ -97,6 +112,7 @@
 	.case-item {
 		padding: 25px 20px;
 		border-top: var(--dashboard-border);
+		border-left: 10px solid var(--priority-color);
 		cursor: pointer;
 		transition: background-color 0.3s ease;
 	}

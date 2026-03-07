@@ -1,6 +1,6 @@
 <script>
 	import { Activity, Mic, Grid, LayoutDashboard } from "@lucide/svelte";
-	import CardLink from "./CardLink.svelte";
+	import CardLink from "../lib/components/CardLink.svelte";
 </script>
 
 <div id="landing-page">

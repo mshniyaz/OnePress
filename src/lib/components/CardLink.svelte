@@ -4,6 +4,9 @@
 		desc = "desc",
 		href = "/",
 		color = "",
+		isSelected = false,
+		onclick = null,
+		isCaseItem = false,
 	} = $props();
 </script>
 
