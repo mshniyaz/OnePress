@@ -15,11 +15,45 @@
 	import casesDataRaw from "./sampledata.json";
 	let casesData = $state(casesDataRaw);
 
-	// compute currently visible cases whenever the index or data changes
+	// Subscribe to supabase data
+	// import { supabase } from "$lib/supabaseClient";
+	// import { onMount } from "svelte";
+
+	// let casesData = $state([]);
+
+	// onMount(async () => {
+	// 	// 1. Get existing data so the dashboard isn't empty on refresh
+	// 	const { data } = await supabase
+	// 		.from("cases")
+	// 		.select("*")
+	// 		.order("timestamp", { ascending: false });
+	// 	casesData = data || [];
+
+	// 	// 2. Listen for NEW rows (the "INSERT" event)
+	// 	const channel = supabase
+	// 		.channel("schema-db-changes")
+	// 		.on(
+	// 			"postgres_changes",
+	// 			{ event: "INSERT", schema: "public", table: "cases" },
+	// 			(payload) => {
+	// 				console.log("New case received!", payload.new);
+	// 				// Add the new record to the top of your array
+	// 				casesData = [payload.new, ...casesData];
+	// 			},
+	// 		)
+	// 		.subscribe();
+
+	// 	// Clean up connection when component unmounts
+	// 	return () => supabase.removeChannel(channel);
+	// });
+
+	// Compute currently visible cases whenever the index or data changes
 	let currCases = $derived(
-		casesData
+		// Ensure casesData exists before filtering to avoid "undefined" errors
+		(casesData || [])
 			.filter((caseItem) => caseItem.status === tabs[currentTabIndex])
-			.sort((a, b) => a.priority - b.priority),
+			// Sort descending (Priority 5 at the top)
+			.sort((a, b) => b.priority - a.priority),
 	);
 
 	// Handle case selection
@@ -35,7 +69,7 @@
 			3: "var(--priority-green)",
 		};
 		return colors[priority] || "var(--priority-unknown)";
-	};
+	}
 </script>
 
 <div id="dashboard-page">
