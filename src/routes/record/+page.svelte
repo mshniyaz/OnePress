@@ -1,6 +1,7 @@
 <script>
   import { Mic, Square, SendHorizontal, LoaderCircle } from "@lucide/svelte";
   import { supabase } from "$lib/supabaseClient";
+  import { analyzeAudio } from "$lib/analyzeAudio";
 
   // Form submission code
   let name = $state("");
@@ -125,19 +126,60 @@
         .from("Recordings")
         .getPublicUrl(fileName);
 
-      // 3. Insert row into cases table
-      const { error: insertError } = await supabase.from("cases").insert({
-        name: String(name).trim(),
-        age: Number(age),
-        nric: String(nric).trim(),
-        address: String(address).trim(),
-        phone: String(phoneNum).trim(),
-        audio_url: urlData.publicUrl,
-      });
+      // 3. Insert row into cases table (with defaults, AI fills in later)
+      const { data: insertedRow, error: insertError } = await supabase
+        .from("cases")
+        .insert({
+          name: String(name).trim(),
+          age: Number(age),
+          nric: String(nric).trim(),
+          address: String(address).trim(),
+          phone: String(phoneNum).trim(),
+          audio_url: urlData.publicUrl,
+          status: "Pending",
+          tags: [],
+          lang: "",
+          priority: 4,
+          rawTranscript: "",
+          engTranscript: "",
+          aiSummary: "",
+        })
+        .select()
+        .single();
 
       if (insertError) throw insertError;
 
-      alert("Help request submitted successfully!");
+      // 4. Run AI analysis on the audio (non-blocking for the user)
+      analyzeAudio(audioBlob)
+        .then(async (aiResult) => {
+          const { error: updateError } = await supabase
+            .from("cases")
+            .update({
+              rawTranscript: aiResult.rawTranscript,
+              engTranscript: aiResult.engTranscript,
+              lang: aiResult.lang,
+              priority: aiResult.priority,
+              tags: aiResult.tags,
+              aiSummary: aiResult.aiSummary,
+            })
+            .eq("id", insertedRow.id);
+
+          if (updateError) {
+            console.error(
+              "Failed to update case with AI results:",
+              updateError,
+            );
+          } else {
+            console.log("AI analysis complete for case", insertedRow.id);
+          }
+        })
+        .catch((err) => {
+          console.error("AI analysis failed:", err);
+        });
+
+      alert(
+        "Help request submitted! AI analysis is processing in the background.",
+      );
       // Reset form
       name = "";
       age = "";
