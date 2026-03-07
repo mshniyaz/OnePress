@@ -3,11 +3,11 @@
   import { supabase } from "$lib/supabaseClient";
 
   // Form submission code
-  let name = $state("john programmer");
-  let nric = $state("t12345678z");
-  let age = $state(99);
-  let address = $state("Blk 00, Example Rd");
-  let phoneNum = $state(81239123);
+  let name = $state("");
+  let nric = $state("");
+  let age = $state();
+  let address = $state("");
+  let phoneNum = $state();
   let isSubmitting = $state(false);
 
   // $effect(() => {
@@ -168,7 +168,7 @@
       {#if isRecording}
         <Square size="36" strokeWidth="3" />
       {:else}
-        <Mic size="40" strokeWidth="2" />
+        <Mic size="40" strokeWidth="2" color="#fff" />
       {/if}
     </button>
 
@@ -192,7 +192,7 @@
         <input
           id="full-name"
           type="text"
-          placeholder="Full name"
+          placeholder="Henry Averies"
           bind:value={name}
         />
 
@@ -210,7 +210,12 @@
 
           <div class="field-group">
             <label for="nric">NRIC</label>
-            <input id="nric" type="text" placeholder="NRIC" bind:value={nric} />
+            <input
+              id="nric"
+              type="text"
+              placeholder="S1234567Z"
+              bind:value={nric}
+            />
           </div>
         </div>
 
@@ -218,7 +223,7 @@
         <input
           id="address"
           type="text"
-          placeholder="Address"
+          placeholder="7th Avenue"
           bind:value={address}
         />
 
@@ -226,7 +231,7 @@
         <input
           id="phone"
           type="number"
-          placeholder="Phone number"
+          placeholder="9999 9999"
           bind:value={phoneNum}
         />
       </form>
@@ -303,7 +308,6 @@
     border-radius: 50%;
     border: 3px solid rgba(255, 255, 255, 0.15);
     background: radial-gradient(circle, #e63946 0%, #b5202d 100%);
-    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
