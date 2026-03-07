@@ -11,7 +11,7 @@
 </script>
 
 <a class="card" {href} style:--content-accent={color}>
-	<div class="icon"><slot name="icon" class="icon" /></div>
+	<slot name="icon"/>
 	<h2>{title}</h2>
 	<p class="desc">{desc}</p>
 </a>
