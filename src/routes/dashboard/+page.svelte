@@ -1,10 +1,14 @@
 <script>
 	import TabSelector from "$lib/components/TabSelector.svelte";
+	import CaseView from "./CaseView.svelte";
 
 	// Track currently selected tab for sidebar
 	let currentTabIndex = $state(0);
 	const tabs = ["Pending", "Resolved"];
 	let currentTab = $derived(tabs[currentTabIndex]);
+
+	// Track selected case
+	let selectedCase = $state(null);
 
 	// TODO: Implement actual database
 	// fetch mock data and put it into reactive state
@@ -13,6 +17,11 @@
 
 	// compute currently visible cases whenever the index or data changes
 	let currCases = $derived(casesData.filter((caseItem) => caseItem.status === tabs[currentTabIndex]));
+
+	// Handle case selection
+	const selectCase = (caseItem) => {
+		selectedCase = caseItem;
+	};
 </script>
 
 <div id="dashboard-page">
@@ -26,15 +35,21 @@
 				<p id="nocase-alert">No cases queued</p>
 			{:else}
 				{#each currCases as caseItem (caseItem.id)}
-					<div class="case-item">
-						<p class='case-name'>{caseItem.name}</p>
-						<p class='case-desc'>{caseItem.timestamp}</p>
+					<div
+						class="case-item"
+						class:selected={selectedCase?.id === caseItem.id}
+						onclick={() => selectCase(caseItem)}
+					>
+						<p class="case-name">{caseItem.name}</p>
+						<p class="case-desc">{caseItem.timestamp}</p>
 					</div>
 				{/each}
 			{/if}
 		</div>
 	</div>
-	<div id="case-viewer"></div>
+	<div id="case-viewer">
+		<CaseView caseData={selectedCase} />
+	</div>
 </div>
 
 <style>
@@ -83,6 +98,7 @@
 		padding: 25px 20px;
 		border-top: var(--dashboard-border);
 		cursor: pointer;
+		transition: background-color 0.3s ease;
 	}
 
 	.case-item:last-child {
@@ -91,6 +107,19 @@
 
 	.case-item:hover {
 		background-color: var(--background-accent);
+	}
+
+	.case-item.selected {
+		background-color: var(--content-accent);
+		color: var(--background-color);
+	}
+
+	.case-item.selected .case-name {
+		color: var(--background-color);
+	}
+
+	.case-item.selected .case-desc {
+		color: var(--background-color);
 	}
 
 	.case-name {

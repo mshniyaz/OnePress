@@ -2,17 +2,20 @@
     {
         "id": 1,
         "timestamp": "2024-06-01T12:00:00Z",
-        "tags": ["medical"],
+        "tags": [
+            "medical"
+        ],
         "status": "Pending",
         "audioFile": "",
         "name": "John Programmer",
-        "age": 0,
+        "age": 30,
         "nric": "T12345678Z",
         "address": "Blk 67, Beeboo Rd",
-        "phoneNumber": 0,
+        "phoneNumber": 89559234,
         "lang": "en",
-        "priority": 1,
+        "priority": 3,
         "rawTranscript": "Ching chong my ding long",
-        "engTranscript": "Bo'oh wahter"
+        "engTranscript": "Bo'oh wahter",
+        "aiSummary": "Patient is totally fine, no need to worry about him. He is just a normal guy who is very thirsty and wants to drink water."
     }
 ]

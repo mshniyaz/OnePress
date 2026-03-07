@@ -8,7 +8,6 @@
 <nav id="topbar">
 	<a href="/">
 		<ArrowLeft color="#ffffff" />
-		<p>Back</p>
 	</a>
 </nav>
 {@render children()}
@@ -33,10 +32,5 @@
 		justify-content: center; /* Horizontal center */
 		padding: 0px 10px;
 		margin-right: 10px;
-	}
-
-	p {
-		font-weight: bold;
-		margin: 0px 10px;
 	}
 </style>
