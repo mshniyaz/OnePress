@@ -1,10 +1,10 @@
 <script>
 	import { Activity, Mic, Grid, LayoutDashboard } from "@lucide/svelte";
-	import CardLink from "./CardLink.svelte";
+	import CardLink from "../lib/components/CardLink.svelte";
 </script>
 
 <div id="landing-page">
-	<div class='navcontent'>
+	<div class="navcontent">
 		<h1>
 			<Activity strokeWidth="3" size="30" />
 			OnePress
@@ -19,9 +19,9 @@
 				href="./record"
 				title="Record"
 				desc="Simulate the red button and record audio to send to the 24/7 helpline"
-                color='red'
+				color="red"
 			>
-				<Mic slot="icon" size="40" color='red'/>
+				<Mic slot="icon" size="40" color="red" />
 			</CardLink>
 
 			<CardLink
@@ -29,7 +29,7 @@
 				title="Dashboard"
 				desc="View reports based on recordings"
 			>
-				<LayoutDashboard slot="icon" size="40"/>
+				<LayoutDashboard slot="icon" size="40" />
 			</CardLink>
 		</div>
 	</div>
@@ -37,8 +37,8 @@
 
 <style>
 	#landing-page {
-        background-color: inherit;
-        color: inherit;
+		background-color: inherit;
+		color: inherit;
 		min-height: 100vh;
 		display: flex;
 		flex-direction: column;
@@ -54,9 +54,9 @@
 		width: 100%;
 	}
 
-    h1 {
-        color: var(--content-accent);
-    }
+	h1 {
+		color: var(--content-accent);
+	}
 
 	.cards {
 		display: flex;

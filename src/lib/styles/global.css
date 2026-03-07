@@ -4,11 +4,17 @@
 	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 	--font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 	/* Color variables */
-	--background-color: #011627;
-	--background-accent: #25343f;
+	--background-color: #14181f;
+	--background-accent: #2c313a;
 	--content-color: #fff1e0;
 	--content-desc-color: #fff1e0b2;
 	--content-accent: #2686fa;
+	--content-accent-desc: #03355c;
+	/* Colors for badges/warnings */
+	--priority-red: red;
+	--priority-yellow: #ff9500;
+	--priority-green: #4caf50;
+	--priority-unkown: grey;
 }
 
 a:link,
@@ -32,4 +38,8 @@ body {
 
 .desc {
 	color: var(--content-desc-color);
+}
+
+.mono, h1, h2 {
+	font-family: var(--font-mono);
 }
