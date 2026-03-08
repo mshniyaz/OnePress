@@ -230,7 +230,7 @@
 
     <div id="user-details">
       <form id="user-details-form">
-        <label for="full-name">Name *</label>
+        <label for="full-name">Name</label>
         <input
           id="full-name"
           type="text"
