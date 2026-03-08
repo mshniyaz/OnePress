@@ -133,16 +133,18 @@
 				</div>
 			</div>
 
-			<!-- TODO: Test with proper audiofile-->
-			{#if caseData.audioFile}
-				<div id="audio-section">
-					<h2>Audio Recording</h2>
-					<audio controls>
-						<source src={caseData.audioFile} type="audio/mpeg" />
-						Your browser does not support the audio element.
-					</audio>
-				</div>
-			{/if}
+			<!-- Audio Recording section-->
+			{#key caseData.id}
+				{#if caseData.audio_url}
+					<div id="audio-section">
+						<h2 class="section-title">Audio Recording</h2>
+						<audio controls style="width: 100%;">
+							<source src={caseData.audio_url} type="audio/webm" />
+							Your browser does not support the audio element.
+						</audio>
+					</div>
+				{/if}
+			{/key}
 
 			<!-- Summary section -->
 			<div id="summary-section">
@@ -345,15 +347,17 @@
 		font-weight: 500;
 	}
 
-	#audio-section {
-		margin-bottom: 30px;
-	}
-
 	/* Audio Player */
 
 	audio {
 		width: 100%;
 		margin-top: 10px;
+	}
+
+	#audio-section {
+		padding-bottom: 30px;
+		margin-bottom: 30px;
+		border-bottom: 1px solid var(--background-accent);
 	}
 
 	/* AI Summary of transcript*/
