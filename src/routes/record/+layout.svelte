@@ -13,16 +13,11 @@
 {@render children()}
 
 <style>
-	:root {
-		--dashboard-border: 1px solid var(--background-accent);
-	}
-
 	#topbar {
 		display: flex;
 		height: 5vh;
 		align-items: center;
 		padding: 0px 10px;
-		border-bottom: var(--dashboard-border);
 		color: var(--content-accent);
 	}
 

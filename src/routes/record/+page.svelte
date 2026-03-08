@@ -208,7 +208,7 @@
       onclick={toggleRecording}
     >
       {#if isRecording}
-        <Square size="36" strokeWidth="3" />
+        <Square size="36" strokeWidth="3" color="#fff" />
       {:else}
         <Mic size="40" strokeWidth="2" color="#fff" />
       {/if}

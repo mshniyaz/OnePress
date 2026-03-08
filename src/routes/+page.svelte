@@ -1,14 +1,12 @@
 <script>
 	import { Activity, Mic, Grid, LayoutDashboard } from "@lucide/svelte";
 	import CardLink from "../lib/components/CardLink.svelte";
+	import AppLogo from "$lib/assets/AppLogo.png";
 </script>
 
 <div id="landing-page">
 	<div class="navcontent">
-		<h1>
-			<Activity strokeWidth="3" size="30" />
-			OnePress
-		</h1>
+		<img src={AppLogo} alt="OnePress Logo" width="325" />
 		<p class="tagline">
 			AI-powered dashboard to process cases from the Button (PAB) is installed
 			in HDB rental flats where seniors live alone or with other seniors.

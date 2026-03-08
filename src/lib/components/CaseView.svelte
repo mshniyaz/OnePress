@@ -2,7 +2,6 @@
 	import TabSelector from "$lib/components/TabSelector.svelte";
 	import {
 		Volume2,
-		AlertCircle,
 		CircleQuestionMark,
 		House,
 		User,
@@ -150,7 +149,6 @@
 			<div id="summary-section">
 				<h2 class="section-title">AI Summary</h2>
 				<div id="ai-summary">
-					<AlertCircle size={20} />
 					<p>
 						{caseData.aiSummary}
 					</p>
@@ -174,7 +172,7 @@
 	</div>
 {:else}
 	<div id="no-case" class="mono">
-		<CircleQuestionMark size={40} />
+		<CircleQuestionMark size={40} color='#fff'/>
 		<p>Select a case to view details</p>
 	</div>
 {/if}
@@ -372,6 +370,11 @@
 		margin-bottom: 20px;
 		align-items: flex-start;
 	}
+
+  #ai-summary .lucide {
+    min-width: 1em;
+    min-height: 1em;
+  }
 
 	#ai-summary p {
 		margin: 0px;
