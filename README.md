@@ -1,7 +1,10 @@
 <img width="3099" height="619" alt="Asset 1@300x-8" src="https://github.com/user-attachments/assets/ed81298d-2170-4c44-936a-d000b72008a9" />
-AI-powered emergency response system for processing cases from the Personal Alert Button (PAB) installed in HDB flats where seniors live alone or with other seniors. 
+AI-powered emergency response system for processing cases from the Personal Alert Button (PAB) installed in HDB flats where seniors live alone or with other seniors. Built for HackOMania 2026, for GovTech's problem statement of creating a dashboard to quickly address senior's needs.
 
 ---
+
+  > [!NOTE]
+  > Special thanks to Aahil Mohamed. Though his body is far off, he remains with us in spirit
 
 ## Overview
 
